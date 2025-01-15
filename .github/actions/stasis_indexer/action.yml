@@ -87,6 +87,7 @@ runs:
       run: |
         sudo apt update
         sudo apt -y install sshfs
+      shell: bash
 
     - name: Mount external data areas
       run: |
@@ -119,6 +120,7 @@ runs:
             --dest "${dest}"
             ${{ inputs.stasis_args }} \
             "$src"
+      shell: bash
       env:
         #Artifactory service URL (ending in /artifactory)
         STASIS_JF_ARTIFACTORY_URL: ${{ inputs.artifactory_url }}/artifactory
@@ -126,4 +128,3 @@ runs:
         STASIS_JF_REPO: ${{ inputs.artifactory_repo }}
         STASIS_JF_ACCESS_TOKEN: ${{ inputs.artifactory_access_key }}
         STASIS_GH_TOKEN: ${{ inputs.release_notes_pat }}
-      shell: bash
