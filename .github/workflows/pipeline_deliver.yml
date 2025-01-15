@@ -47,7 +47,6 @@ jobs:
     steps:
       - name: Index
         uses: ./.github/workflows/stasis_indexer.yml
-        secrets: inherit
         with:
           artifactory_repo: ${{ inputs.artifactory_repo }}
           mission: ${{ inputs.mission }}
