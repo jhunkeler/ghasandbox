@@ -1,0 +1,57 @@
+name: Deliver Pipeline
+
+run-name: |
+  Deliver Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifactory_repo:
+        type: string
+        description: Artifactory repository name where deliveries are stored
+        required: true
+        default: "some-repo"
+
+      mission:
+        type: choice
+        description: Artifactory <artifactory_repo>/<mission> directory
+        options:
+          - thing1
+          - thing2
+          - thing3
+          - thing4
+        required: true
+        default: "thing4"
+
+      build_name:
+        type: string
+        description: Artifactory <mission>/<build_name> directory
+        requires: true
+        default: ""
+
+      destination:
+        type: string
+        description: Path to store an indexed delivery
+        required: true
+        default: "/path/to/stasis/releases"
+
+      stasis_indexer_args:
+        type: string
+        description: arguments for stasis tool
+        required: true
+        default: ""
+
+jobs:
+  deliver:
+    name: Deliver
+    steps:
+      - name: Index
+        uses: ./.github/workflows/stasis_indexer.yml
+        secrets: inherit
+        with:
+          artifactory_repo: ${{ inputs.artifactory_repo }}
+          mission: ${{ inputs.mission }}
+          build_name: ${{ inputs.build_name }}
+          destination: ${{ inputs.destination }}
+          stasis_indexer_args: ${{ inputs.stasis_indexer_args }}
+
