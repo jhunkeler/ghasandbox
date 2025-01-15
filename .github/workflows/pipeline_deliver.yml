@@ -46,6 +46,8 @@ jobs:
     name: Deliver
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Index
         uses: ./.github/workflows/stasis_indexer.yml
         with:
