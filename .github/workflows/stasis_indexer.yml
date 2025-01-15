@@ -8,24 +8,24 @@ on:
     inputs:
       artifactory_repo:
         type: string
-        description: Artifactory repository name where deliveries are stored
+        description: Artifactory repository path where deliveries are stored
         required: true
-        default: "scsb-stasis"
+        default: "some-repo"
 
       mission:
         type: choice
-        description: Artifactory <artifactory_repo>/<mission> directory
+        description: Mission name (e.g. hst)
         options:
-          - hst
-          - jwst
-          - roman
-          - generic
+          - thing1
+          - thing2
+          - thing3
+          - thing4
         required: true
-        default: "generic"
+        default: "thing4"
 
       build_name:
         type: string
-        description: Artifactory <mission>/<build_name> directory
+        description: Build name (e.g. MYPIPELINE-1.2.3)
         requires: true
         default: ""
 
@@ -33,16 +33,16 @@ on:
         type: string
         description: Path to store an indexed delivery
         required: true
-        default: "/eng/ssb/websites/ssbpublic/stasis/releases"
+        default: "/path/to/stasis/releases"
 
       stasis_indexer_args:
-          type: string
-          description: arguments for stasis tool
-          required: true
-          default: ""
+        type: string
+        description: arguments for stasis tool
+        required: true
+        default: ""
 
 env:
-  REMOTE_PATHS: "/eng/ssb/websites/ssbpublic/stasis"
+  REMOTE_PATHS: "/path/to/somewhere"
   #Artifactory service URL (ending in /artifactory)
   STASIS_JF_ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}/artifactory
   #Artifactory "generic" repository to write to
