@@ -58,5 +58,4 @@ jobs:
           build_name: ${{ inputs.build_name }}
           destination: ${{ inputs.destination }}
           stasis_indexer_args: ${{ inputs.stasis_indexer_args }}
-          release_notes_pat: anonymous
 

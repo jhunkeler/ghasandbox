@@ -26,12 +26,12 @@ inputs:
     type: choice
     description: Mission name (e.g. hst)
     options:
-      - thing1
-      - thing2
-      - thing3
-      - thing4
+      - hst
+      - jwst
+      - roman
+      - generic
     required: true
-    default: "thing4"
+    default: "generic"
 
   build_name:
     type: string
@@ -41,7 +41,7 @@ inputs:
 
   destination:
     type: string
-    description: Path to store an indexed delivery
+    description: Path to store an indexed delivery on-disk
     required: true
     default: "/path/to/stasis/releases"
 
@@ -49,12 +49,6 @@ inputs:
     type: string
     description: Additional arguments passed to stasis_indexer
     required: false
-    default: ""
-
-  release_notes_pat:
-    type: string
-    description: GitHub token with WRITE
-    required: true
     default: ""
 
 env:
@@ -126,4 +120,3 @@ runs:
         #Artifactory "generic" repository to write to
         STASIS_JF_REPO: ${{ inputs.artifactory_repo }}
         STASIS_JF_ACCESS_TOKEN: ${{ inputs.artifactory_access_key }}
-        STASIS_GH_TOKEN: ${{ inputs.release_notes_pat }}
