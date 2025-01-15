@@ -49,7 +49,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - Name: Index
+      - name: Index
         uses: ./.github/actions/stasis_indexer
         with:
           artifactory_repo: ${{ inputs.artifactory_repo }}
