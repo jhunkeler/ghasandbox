@@ -42,21 +42,19 @@ on:
         default: ""
 
 jobs:
-  checkout:
-    name: Checkout
+  deliver:
+    name: Deliver
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-  deliver:
-    name: Deliver
-    runs-on: ubuntu-latest
-    uses: ./.github/workflows/stasis_indexer.yml
-      with:
-      artifactory_repo: ${{ inputs.artifactory_repo }}
-      mission: ${{ inputs.mission }}
-      build_name: ${{ inputs.build_name }}
-      destination: ${{ inputs.destination }}
-      stasis_indexer_args: ${{ inputs.stasis_indexer_args }}
+      - Name: Index
+        uses: ./.github/actions/stasis_indexer
+        with:
+          artifactory_repo: ${{ inputs.artifactory_repo }}
+          mission: ${{ inputs.mission }}
+          build_name: ${{ inputs.build_name }}
+          destination: ${{ inputs.destination }}
+          stasis_indexer_args: ${{ inputs.stasis_indexer_args }}
 

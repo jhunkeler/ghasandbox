@@ -1,0 +1,113 @@
+name: STASIS Indexer
+
+run-name: |
+  STASIS Indexer
+
+on:
+  workflow_call:
+    inputs:
+      artifactory_repo:
+        type: string
+        description: Artifactory repository path where deliveries are stored
+        required: true
+        default: "some-repo"
+
+      mission:
+        type: choice
+        description: Mission name (e.g. hst)
+        options:
+          - thing1
+          - thing2
+          - thing3
+          - thing4
+        required: true
+        default: "thing4"
+
+      build_name:
+        type: string
+        description: Build name (e.g. MYPIPELINE-1.2.3)
+        requires: true
+        default: ""
+
+      destination:
+        type: string
+        description: Path to store an indexed delivery
+        required: true
+        default: "/path/to/stasis/releases"
+
+      stasis_indexer_args:
+        type: string
+        description: arguments for stasis tool
+        required: true
+        default: ""
+
+env:
+  REMOTE_PATHS: "/path/to/somewhere"
+  #Artifactory service URL (ending in /artifactory)
+  STASIS_JF_ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}/artifactory
+  #Artifactory "generic" repository to write to
+  STASIS_JF_REPO: ${{ inputs.artifactory_repo }}
+  STASIS_JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_KEY }}
+  STASIS_GH_TOKEN: ${{ secrets.RELEASE_NOTES_PAT }}
+
+jobs:
+  index:
+    name: STASIS Indexer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: 'spacetelescope/stasis'
+          path: ${{ github.workspace }}/stasis
+
+      - name: Install STASIS dependencies
+        if: ${{ inputs.os == 'Linux' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates cmake libcurl4-openssl-dev libxml2-dev rsync
+        shell: bash
+
+      - name: Set TMPDIR
+        run: |
+          echo TMPDIR=${{ runner.temp }} >> $GITHUB_ENV
+        shell: bash
+
+      - name: Build STASIS
+        run: |
+          rm -rf ${{ github.workspace }}/stasis/build
+          cd ${{ github.workspace }}/stasis
+          mkdir -p build
+          cd build
+          cmake .. \
+              -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/.local" \
+              -DCMAKE_BUILD_TYPE="RelWithDebInfo"
+          make
+          make install
+        shell: bash
+
+      - name: Install SSHFS
+        run: |
+          sudo apt update
+          sudo apt -y install sshfs
+
+      - name: Mount external data areas
+        run: |
+          for remote in $REMOTE_PATHS; do
+              echo mounting $remote
+          done
+        shell: bash
+
+      - name: Run Stasis Linux
+        run: |
+          src="${{ inputs.artifactory_repo }}/${{ inputs.mission }}/${{ inputs.build_name }}"
+          dest="${{ inputs.destination }}/${{ inputs.mission }}/${{ inputs.build_name }}
+          stasis_indexer \
+              --unbuffered \
+              --verbose \
+              --web \
+              --dest "${dest}"
+              ${{ inputs.stasis_args }} \
+              "$src"
+        shell: bash
