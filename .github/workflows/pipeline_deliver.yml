@@ -52,9 +52,11 @@ jobs:
       - name: Index
         uses: ./.github/actions/stasis_indexer
         with:
+          artifactory_url: https://blah.tld
           artifactory_repo: ${{ inputs.artifactory_repo }}
           mission: ${{ inputs.mission }}
           build_name: ${{ inputs.build_name }}
           destination: ${{ inputs.destination }}
           stasis_indexer_args: ${{ inputs.stasis_indexer_args }}
+          release_notes_pat: anonymous
 
