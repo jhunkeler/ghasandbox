@@ -3,61 +3,59 @@ name: STASIS Indexer
 description: |
   Executes the STASIS indexer with arguments
 
-on:
-  workflow_call:
-    inputs:
-      artifactory_url:
-        type: string
-        description: Artifactory base address (without /artifactory)
-        required: true
-        default: ""
+inputs:
+  artifactory_url:
+    type: string
+    description: Artifactory base address (without /artifactory)
+    required: true
+    default: ""
 
-      artifactory_repo:
-        type: string
-        description: Artifactory repository path where deliveries are stored
-        required: true
-        default: "some-repo"
+  artifactory_repo:
+    type: string
+    description: Artifactory repository path where deliveries are stored
+    required: true
+    default: "some-repo"
 
-      artifactory_access_key:
-        type: string
-        description: Artifactory access key
-        required: true
-        default: ""
+  artifactory_access_key:
+    type: string
+    description: Artifactory access key
+    required: true
+    default: ""
 
-      mission:
-        type: choice
-        description: Mission name (e.g. hst)
-        options:
-          - thing1
-          - thing2
-          - thing3
-          - thing4
-        required: true
-        default: "thing4"
+  mission:
+    type: choice
+    description: Mission name (e.g. hst)
+    options:
+      - thing1
+      - thing2
+      - thing3
+      - thing4
+    required: true
+    default: "thing4"
 
-      build_name:
-        type: string
-        description: Build name (e.g. MYPIPELINE-1.2.3)
-        required: true
-        default: ""
+  build_name:
+    type: string
+    description: Build name (e.g. MYPIPELINE-1.2.3)
+    required: true
+    default: ""
 
-      destination:
-        type: string
-        description: Path to store an indexed delivery
-        required: true
-        default: "/path/to/stasis/releases"
+  destination:
+    type: string
+    description: Path to store an indexed delivery
+    required: true
+    default: "/path/to/stasis/releases"
 
-      stasis_indexer_args:
-        type: string
-        description: Additional arguments passed to stasis_indexer
-        required: false
-        default: ""
+  stasis_indexer_args:
+    type: string
+    description: Additional arguments passed to stasis_indexer
+    required: false
+    default: ""
 
-      release_notes_pat:
-        type: string
-        description: GitHub token with WRITE
-        required: true
-        default: ""
+  release_notes_pat:
+    type: string
+    description: GitHub token with WRITE
+    required: true
+    default: ""
 
 env:
   REMOTE_PATHS: "/path/to/somewhere"
