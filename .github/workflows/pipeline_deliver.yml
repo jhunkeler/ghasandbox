@@ -44,6 +44,7 @@ on:
 jobs:
   deliver:
     name: Deliver
+    runs-on: ubuntu-latest
     steps:
       - name: Index
         uses: ./.github/workflows/stasis_indexer.yml
