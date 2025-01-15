@@ -112,7 +112,7 @@ runs:
     - name: Run STASIS Indexer
       run: |
         src="${{ inputs.artifactory_repo }}/${{ inputs.mission }}/${{ inputs.build_name }}"
-        dest="${{ inputs.destination }}/${{ inputs.mission }}/${{ inputs.build_name }}
+        dest="${{ inputs.destination }}/${{ inputs.mission }}/${{ inputs.build_name }}"
         stasis_indexer \
             --unbuffered \
             --verbose \
