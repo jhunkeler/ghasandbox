@@ -42,6 +42,13 @@ on:
         default: ""
 
 jobs:
+  checkout:
+    name: Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
   deliver:
     name: Deliver
     runs-on: ubuntu-latest
@@ -52,7 +59,4 @@ jobs:
       build_name: ${{ inputs.build_name }}
       destination: ${{ inputs.destination }}
       stasis_indexer_args: ${{ inputs.stasis_indexer_args }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
 
