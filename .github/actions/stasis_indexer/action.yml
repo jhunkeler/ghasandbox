@@ -105,6 +105,7 @@ runs:
             -DCMAKE_BUILD_TYPE="RelWithDebInfo"
         make
         make install
+        echo "PATH=${{ github.workspace }}/bin:$PATH" >> $GITHUB_ENV
       shell: bash
 
     - name: Run STASIS Indexer
