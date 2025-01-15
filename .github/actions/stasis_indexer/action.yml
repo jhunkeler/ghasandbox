@@ -117,7 +117,7 @@ runs:
             --unbuffered \
             --verbose \
             --web \
-            --dest "${dest}"
+            --dest "${dest}" \
             ${{ inputs.stasis_args }} \
             "$src"
       shell: bash
