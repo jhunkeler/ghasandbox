@@ -37,8 +37,8 @@ on:
 
       stasis_indexer_args:
         type: string
-        description: arguments for stasis tool
-        required: true
+        description: Additional arguments passed to stasis_indexer
+        required: false
         default: ""
 
 env:

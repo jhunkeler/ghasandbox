@@ -38,7 +38,7 @@ on:
       stasis_indexer_args:
         type: string
         description: arguments for stasis tool
-        required: true
+        required: false
         default: ""
 
 jobs:
