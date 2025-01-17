@@ -1,7 +1,7 @@
-name: Deliver Pipeline
+name: Index Pipeline
 
 run-name: |
-  Deliver Pipeline
+  Index Pipeline
 
 on:
   workflow_dispatch:
@@ -48,6 +48,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Mount data area
+        uses: ./.github/actions/sshfs
+        with:
+          user: ${{ secrets.SVC_SSHFS_USER }}
+          password: ${{ secrets.SVC_SSHFS_PASS }}
+          remote_host: example.tld
+          remote_dir: /data
+          local_dir: /mydata
 
       - name: Index
         uses: ./.github/actions/stasis_indexer

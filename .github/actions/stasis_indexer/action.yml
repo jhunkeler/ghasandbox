@@ -51,61 +51,18 @@ inputs:
     required: false
     default: ""
 
-env:
-  REMOTE_PATHS: "/path/to/somewhere"
-
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/checkout@v4
-      with:
-        repository: 'spacetelescope/stasis'
-        path: ${{ github.workspace }}/stasis
-
-    - name: Install STASIS dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ca-certificates cmake libcurl4-openssl-dev libxml2-dev rsync
-      shell: bash
-
-    - name: Set TMPDIR
-      run: |
-        echo TMPDIR=${{ runner.temp }} >> $GITHUB_ENV
-      shell: bash
-
-    - name: Install SSHFS
-      run: |
-        sudo apt update
-        sudo apt -y install sshfs
-      shell: bash
-
-    - name: Mount external data areas
-      run: |
-        for remote in $REMOTE_PATHS; do
-            echo mounting $remote
-        done
-      shell: bash
-
-    - name: Build STASIS
-      run: |
-        rm -rf ${{ github.workspace }}/stasis/build
-        cd ${{ github.workspace }}/stasis
-        mkdir -p build
-        cd build
-        cmake .. \
-            -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/.local" \
-            -DCMAKE_BUILD_TYPE="RelWithDebInfo"
-        make
-        make install
-        echo "PATH=${{ github.workspace }}/.local/bin:$PATH" >> $GITHUB_ENV
-      shell: bash
-
     - name: Run STASIS Indexer
       run: |
-        src="${{ inputs.artifactory_repo }}/${{ inputs.mission }}/${{ inputs.build_name }}"
+        src="${{ inputs.mission }}/${{ inputs.build_name }}"
         dest="${{ inputs.destination }}/${{ inputs.mission }}/${{ inputs.build_name }}"
+        repo_src="${{ inputs.artifactory_repo }}/$src"
+
+        jf rt download "$repo_src"
         stasis_indexer \
             --unbuffered \
             --verbose \
