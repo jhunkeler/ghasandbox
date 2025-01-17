@@ -29,10 +29,6 @@ inputs:
     required: false
     default: ""
 
-env:
-  SSHFS_USER: ${{ inputs.user }}
-  SSHFS_PASS: ${{ inputs.password }}
-
 runs:
   using: "composite"
   steps:
@@ -40,7 +36,11 @@ runs:
       run: |
         echo "::add-mask::$SSHFS_USER"
         echo "::add-mask::$SSHFS_PASS"
+      env:
+        SSHFS_USER: ${{ inputs.user }}
+        SSHFS_PASS: ${{ inputs.password }}
       shell: bash
+
 
     - name: Install SSHFS
       run: |
