@@ -12,6 +12,14 @@ on:
         required: true
         default: ""
 
+      verbose:
+        type: boolean
+        default: false
+
+      continue_on_error:
+        type: boolean
+        default: false
+
       stasis_args:
         type: string
         description: Arguments to pass to STASIS
@@ -34,4 +42,6 @@ jobs:
           artifactory_repo: ${{ inputs.artifactory_repo }}
           stasis_args: ${{ inputs.stasis_args }}
           option_delivery_file: ${{ inputs.delivery_file }}
+          option_verbose: ${{ inputs.verbose }}
+          option_continue_on_error: ${{ inputs.continue_on_error }}
 

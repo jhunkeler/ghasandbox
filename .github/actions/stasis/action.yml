@@ -149,8 +149,6 @@ env:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-
     - name: Install STASIS dependencies
       run: |
         sudo apt-get update
