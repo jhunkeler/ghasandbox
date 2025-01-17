@@ -43,7 +43,7 @@ on:
 
 jobs:
   deliver:
-    name: Deliver
+    name: Index
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
