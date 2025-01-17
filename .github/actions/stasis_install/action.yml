@@ -1,0 +1,54 @@
+name: Install STASIS
+
+description: |
+  Installs STASIS
+
+inputs:
+  prefix:
+    type: string
+    description: STASIS installation prefix
+    required: false
+    default: "${{ github.workspace }}/.local"
+
+  build_type:
+    type: string
+    description: |
+      Type of build:
+        Release, RelWithDebInfo, Debug, or MinSizeRel
+    required: false
+    default: "${{ github.workspace }}/.local"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/checkout@v4
+      with:
+        repository: 'spacetelescope/stasis'
+        path: ${{ github.workspace }}/stasis
+
+    - name: Install STASIS dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates cmake libcurl4-openssl-dev libxml2-dev rsync
+      shell: bash
+
+    - name: Install STASIS
+      run: |
+        rm -rf ${{ github.workspace }}/stasis/build
+        cd ${{ github.workspace }}/stasis
+        mkdir -p build
+        cd build
+        cmake .. \
+            -DCMAKE_INSTALL_PREFIX="${{ inputs.prefix }}" \
+            -DCMAKE_BUILD_TYPE="${{ inputs.build_type }}"
+        make
+        make install
+        echo "PATH=${{ inputs.prefix }}/bin:$PATH" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Remove STASIS source
+      run: |
+        rm -rf ${{ github.workspace }}/stasis
+

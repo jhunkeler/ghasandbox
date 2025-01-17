@@ -1,7 +1,7 @@
 name: STASIS
 
 description: |
-  Executes the STASIS with arguments
+  Executes STASIS with arguments
 
 inputs:
   prefix:
@@ -151,12 +151,6 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
-    - name: Install STASIS dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ca-certificates cmake libcurl4-openssl-dev libxml2-dev rsync
-      shell: bash
-
     - name: Set TMPDIR
       run: |
         echo TMPDIR=${{ runner.temp }} >> $GITHUB_ENV
@@ -175,24 +169,11 @@ runs:
         done
       shell: bash
 
-    - uses: actions/checkout@v4
+    - name: Install STASIS
+      uses: ./.github/actions/stasis_install
       with:
-        repository: 'spacetelescope/stasis'
-        path: ${{ github.workspace }}/stasis
-
-    - name: Build STASIS
-      run: |
-        rm -rf ${{ github.workspace }}/stasis/build
-        cd ${{ github.workspace }}/stasis
-        mkdir -p build
-        cd build
-        cmake .. \
-            -DCMAKE_INSTALL_PREFIX="${{ inputs.prefix }}" \
-            -DCMAKE_BUILD_TYPE="RelWithDebInfo"
-        make
-        make install
-        echo "PATH=${{ inputs.prefix }}/bin:$PATH" >> $GITHUB_ENV
-      shell: bash
+        prefix: ${{ github.workflow }}/.local
+        build_type: RelWithDebInfo
 
     - name: Configure program arguments
       run: |
@@ -251,10 +232,7 @@ runs:
 
     - name: Run STASIS
       run: |
-        set -x
-        set -v
         args=""
-
         for arg in $(compgen -A variable | grep option_); do
             args+="${!arg} "
         done
