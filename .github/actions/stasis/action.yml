@@ -154,19 +154,6 @@ runs:
         echo TMPDIR=${{ runner.temp }} >> $GITHUB_ENV
       shell: bash
 
-    - name: Install SSHFS
-      run: |
-        sudo apt update
-        sudo apt -y install sshfs
-      shell: bash
-
-    - name: Mount external data areas
-      run: |
-        for remote in $REMOTE_PATHS; do
-            echo mounting $remote
-        done
-      shell: bash
-
     - name: Install STASIS
       id: install-stasis
       uses: ./.github/actions/stasis_install

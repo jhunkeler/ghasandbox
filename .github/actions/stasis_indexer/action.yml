@@ -56,6 +56,18 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
+    - name: Install STASIS
+      id: install-stasis
+      uses: ./.github/actions/stasis_install
+      with:
+        prefix: ${{ github.workspace }}/.local
+        build_type: RelWithDebInfo
+
+    - name: Enable STASIS
+      run: |
+        echo "PATH=${{ steps.install-stasis.outputs.bindir }}:$PATH" >> $GITHUB_ENV
+      shell: bash
+
     - name: Run STASIS Indexer
       run: |
         src="${{ inputs.mission }}/${{ inputs.build_name }}"
