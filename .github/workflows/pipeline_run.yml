@@ -1,0 +1,37 @@
+name: Publish Pipeline
+
+run-name: |
+  Publish pipeline to Artifactory
+
+on:
+  workflow_dispatch:
+    inputs:
+      delivery_file:
+        type: string
+        description: Delivery file
+        required: true
+        default: ""
+
+      stasis_args:
+        type: string
+        description: Arguments to pass to STASIS
+        required: false
+        default: ""
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: STASIS (${{ runner.os }}-${{ runner.arch }})
+        uses: ./.github/actions/stasis
+        with:
+          prefix: ${{ github.workspace }}/.local
+          artifactory_url: https://blah.tld
+          artifactory_repo: ${{ inputs.artifactory_repo }}
+          stasis_args: ${{ inputs.stasis_args }}
+          option_delivery_file: ${{ inputs.delivery_file }}
+
