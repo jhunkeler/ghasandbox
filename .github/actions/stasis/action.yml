@@ -210,13 +210,13 @@ runs:
             echo "option_no_artifactory_build_info=--no-artifactory-build-info" >> $GITHUB_ENV
         fi
         if [[ "${{ inputs.option_no_testing }}" == "true" ]]; then
-            echo "option_=--no_testing" >> $GITHUB_ENV
+            echo "option_=--no-testing" >> $GITHUB_ENV
         fi
         if [[ "${{ inputs.option_no_parallel }}" == "true" ]]; then
             echo "option_no_parallel=--no-parallel" >> $GITHUB_ENV
         fi
         #if [[ "${{ inputs.option_delivery_file }}" ]]; then
-        #    echo "option_delivery_file=--delivery_file" >> $GITHUB_ENV
+        #    echo "option_delivery_file=${{ inputs.option_delivery_file }}" >> $GITHUB_ENV
         #fi
       shell: bash
 
