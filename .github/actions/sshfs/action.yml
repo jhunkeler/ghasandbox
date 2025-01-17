@@ -32,16 +32,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Mask inputs
-      run: |
-        echo "::add-mask::$SSHFS_USER"
-        echo "::add-mask::$SSHFS_PASS"
-      env:
-        SSHFS_USER: ${{ inputs.user }}
-        SSHFS_PASS: ${{ inputs.password }}
-      shell: bash
-
-
     - name: Install SSHFS
       run: |
         sudo apt update
@@ -58,8 +48,7 @@ runs:
         sudo mkdir -p "$local_dir"
         sudo sshfs \
             -o StrictHostKeyChecking=no,password_stdin,allow_other,default_permissions \
-            $SSHFS_USER@${{ inputs.remote_host}}:${{ inputs.remote_dir }} \
+            ${{ inputs.user }}@${{ inputs.remote_host}}:${{ inputs.remote_dir }} \
             "$local_dir" \
-            <<< "$SSHFS_PASS"
-
+            <<< "${{ inputs.password }}"
       shell: bash

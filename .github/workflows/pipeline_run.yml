@@ -64,8 +64,8 @@ jobs:
       - name: Mount data area
         uses: ./.github/actions/sshfs
         with:
-          user: abcd
-          password: efghijk
+          user: ${{ secrets.SVC_SSHFS_USER }}
+          password: ${{ secrets.SVC_SSHFS_PASS }}
           remote_host: example.tld
           remote_dir: /data
           local_dir: /mydata
