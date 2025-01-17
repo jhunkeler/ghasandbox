@@ -213,6 +213,7 @@ runs:
         echo "option_no_testing=${{ inputs.option_no_testing && '--no-testing' || '' }}" >> $GITHUB_ENV
         echo "option_no_parallel=${{ inputs.option_no_parallel && '--no-parallel' || '' }}" >> $GITHUB_ENV
         #echo "option_delivery_file=${{ inputs.option_delivery_file }}" >> $GITHUB_ENV
+      shell: bash
 
     - name: Run STASIS
       run: |
@@ -226,7 +227,7 @@ runs:
         stasis \
             $args \
             ${{ inputs.stasis_args }} \
-            ${{ inputs.option_delivery_file
+            ${{ inputs.option_delivery_file }}
       shell: bash
       env:
         #Artifactory service URL (ending in /artifactory)
