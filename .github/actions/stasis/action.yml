@@ -173,7 +173,7 @@ runs:
       id: install-stasis
       uses: ./.github/actions/stasis_install
       with:
-        prefix: ${{ github.workflow }}/.local
+        prefix: ${{ github.workspace }}/.local
         build_type: RelWithDebInfo
 
     - name: Enable STASIS
