@@ -170,10 +170,16 @@ runs:
       shell: bash
 
     - name: Install STASIS
+      id: install-stasis
       uses: ./.github/actions/stasis_install
       with:
         prefix: ${{ github.workflow }}/.local
         build_type: RelWithDebInfo
+
+    - name: Enable STASIS
+      run: |
+        echo "PATH=${{ steps.install-stasis.outputs.bindir }}:$PATH" >> $GITHUB_ENV
+      shell: bash
 
     - name: Configure program arguments
       run: |
@@ -230,7 +236,7 @@ runs:
         #fi
       shell: bash
 
-    - name: Run STASIS
+    - name: Run STASIS with arguments
       run: |
         args=""
         for arg in $(compgen -A variable | grep option_); do

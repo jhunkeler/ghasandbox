@@ -18,6 +18,19 @@ inputs:
     required: false
     default: "${{ github.workspace }}/.local"
 
+outputs:
+  installdir:
+    description: STASIS installation directory
+    value: ${{ steps.install-stasis.outputs.installdir
+
+  bindir:
+    description: STASIS bin directory
+    value: ${{ steps.install-stasis.outputs.bindir }}
+
+  sysconfdir:
+    description: STASIS etc directory
+    value: ${{ steps.install-stasis.outputs.sysconfdir }}
+
 runs:
   using: "composite"
   steps:
@@ -35,6 +48,7 @@ runs:
       shell: bash
 
     - name: Install STASIS
+      id: install-stasis
       run: |
         rm -rf ${{ github.workspace }}/stasis/build
         cd ${{ github.workspace }}/stasis
@@ -45,7 +59,9 @@ runs:
             -DCMAKE_BUILD_TYPE="${{ inputs.build_type }}"
         make
         make install
-        echo "PATH=${{ inputs.prefix }}/bin:$PATH" >> $GITHUB_ENV
+        echo "installdir=${{ inputs.prefix }}" >> $GITHUB_OUTPUT
+        echo "bindir=${{ inputs.prefix }}/bin" >> $GITHUB_OUTPUT
+        echo "sysconfdir=${{ inputs.prefix }}/etc" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Remove STASIS source
