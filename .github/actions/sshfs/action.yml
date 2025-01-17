@@ -27,7 +27,7 @@ inputs:
   local_dir:
     type: string
     required: false
-    default: ${{ inputs.remote_dir }}
+    default: ""
 
 runs:
   using: "composite"
@@ -49,11 +49,16 @@ runs:
 
     - name: Mount ${{ inputs.remote_dir }} at ${{ inputs.local_path }}
       run: |
-        sudo mkdir -p ${{ inputs.local_dir }}
+        local_dir="${{ inputs.local_dir }}"
+        if [[ -z "$local_dir" ]]; then
+            local_dir="${{ inputs.remote_dir }}"
+        fi
+
+        sudo mkdir -p "$local_dir"
         sudo sshfs \
             -o StrictHostKeyChecking=no,password_stdin,allow_other,default_permissions \
             $SSHFS_USER@${{ inputs.remote_host}}:${{ inputs.remote_dir }} \
-            ${{ inputs.local_dir }} \
+            "$local_dir" \
             <<< "$SSHFS_PASS"
 
       shell: bash
