@@ -29,11 +29,12 @@ inputs:
     required: false
     default: ""
 
+env:
+  SSHFS_USER: ${{ inputs.user }}
+  SSHFS_PASS: ${{ inputs.password }}
+
 runs:
   using: "composite"
-  env:
-    SSHFS_USER: ${{ inputs.user }}
-    SSHFS_PASS: ${{ inputs.password }}
   steps:
     - name: Mask inputs
       run: |
