@@ -51,9 +51,9 @@ inputs:
     required: true
     default: "/path/to/stasis/releases"
 
-  stasis_indexer_args:
+  stasis_args:
     type: string
-    description: Additional arguments passed to stasis_indexer
+    description: Arguments to pass to STASIS
     required: false
     default: ""
 
