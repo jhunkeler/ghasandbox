@@ -251,6 +251,8 @@ runs:
 
     - name: Run STASIS
       run: |
+        set -x
+        set -v
         args=""
 
         for arg in $(compgen -A variable | grep option_); do
