@@ -227,6 +227,7 @@ runs:
             args+="${!arg} "
         done
 
+        echo "current working directory: $(pwd)"
         stasis \
             $args \
             ${{ inputs.stasis_args }} \
