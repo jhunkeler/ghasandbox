@@ -253,12 +253,8 @@ runs:
       run: |
         args=""
 
-        compgen -A variable
-
         for arg in $(compgen -A variable | grep option_); do
-            if [[ -n "$arg" ]]; then
-                args+="${!arg} "
-            fi
+            args+="${!arg} "
         done
 
         stasis \
