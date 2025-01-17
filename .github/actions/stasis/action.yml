@@ -197,22 +197,56 @@ runs:
     - name: Configure program arguments
       run: |
         echo "option_continue_on_error=${{ inputs.option_continue_on_error && '--continue-on-error' || '' }}" >> $GITHUB_ENV
-        echo "option_config=${{ inputs.option_config && '--config ${{ inputs.option_config }}' || '' }}" >> $GITHUB_ENV
-        echo "option_cpu_limit=${{ inputs.option_cpu_limit && '--cpu-limit ${{ inputs.option_cpu_limit }}' || '' }}" >> $GITHUB_ENV
-        echo "option_pool_status_interval=${{ inputs.option_pool_status_interval && '--pool-status-interval ${{ inputs.option_pool_status_interval }}' }}" >> $GITHUB_ENV
-        echo "option_python=${{ inputs.option_python && '--python ${{ inputs.option_python }}' || '' }}" >> $GITHUB_ENV
-        echo "option_verbose=${{ inputs.option_verbose && '--verbose' || '' }}" >> $GITHUB_ENV
-        echo "option_unbuffered=${{ inputs.option_unbuffered && '--unbuffered' || ''}}" >> $GITHUB_ENV
-        echo "option_update_base=${{ inputs.option_update_base && '--update-base' || '' }}" >> $GITHUB_ENV
-        echo "option_fail_fast=${{ inputs.option_fail_fast && '--fail-fast' || '' }}" >> $GITHUB_ENV
-        echo "option_overwrite=${{ inputs.option_overwrite && '--overwrite' || '' }}" >> $GITHUB_ENV
-        echo "option_no_docker=${{ inputs.option_no_docker && '--no-docker' || '' }}" >> $GITHUB_ENV
-        echo "option_no_artifactory=${{ inputs.option_no_artifactory && '--no-artifactory' || '' }}" >> $GITHUB_ENV
-        echo "option_no_artifactory_upload=${{ inputs.option_no_artifactory_upload && '--no-artifactory-upload' }}" >> $GITHUB_ENV
-        echo "option_no_artifactory_build_info=${{ inputs.option_no_artifactory_build_info && '--no-artifactory-build-info' || '' }}" >> $GITHUB_ENV
-        echo "option_no_testing=${{ inputs.option_no_testing && '--no-testing' || '' }}" >> $GITHUB_ENV
-        echo "option_no_parallel=${{ inputs.option_no_parallel && '--no-parallel' || '' }}" >> $GITHUB_ENV
-        #echo "option_delivery_file=${{ inputs.option_delivery_file }}" >> $GITHUB_ENV
+
+        if [[ -n "${{ inputs.option_config }}" ]]; then
+            echo "option_config=--config=${{ inputs.option_config }}" >> $GITHUB_ENV
+        fi
+        if [[ -n "${{ inputs.option_pool_status_interval }}" ]]; then
+            echo "option_pool_status_interval=--pool-status-interval=${{ inputs.option_pool_status_interval }}" >> $GITHUB_ENV
+        fi
+        if [[ -n "${{ inputs.option_cpu_limit }}" ]]; then
+            echo "option_cpu_limit=--cpu-limit=${{ inputs.option_cpu_limit }}" >> $GITHUB_ENV
+        fi
+        if [[ -n "${{ inputs.option_python }}" ]]; then
+            echo "option_python=--python=${{ inputs.option_python }}" >> $GITHUB_ENV
+        fi
+
+        if [[ "${{ inputs.option_verbose }}" == "true" ]]; then
+            echo "option_verbose=--verbose" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_unbuffered }}" == "true" ]]; then
+            echo "option_unbuffered=--unbuffered" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_update_base }}" == "true" ]]; then
+            echo "option_update_base=--update-base" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_fail_fast }}" == "true" ]]; then
+            echo "option_fail_fast=--fail-fast" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_overwrite }}" == "true" ]]; then
+            echo "option_overwrite=--overwrite" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_no_docker }}" == "true" ]]; then
+            echo "option_no_docker=--no-docker" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_ }}" == "true" ]]; then
+            echo "option_no_artifactory=--no-artifactory" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_ }}" == "true" ]]; then
+            echo "option_no_artifactory_upload=--no-artifactory-upload" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_ }}" == "true" ]]; then
+            echo "option_no_artifactory_build_info=--no-artifactory-build-info" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_no_testing }}" == "true" ]]; then
+            echo "option_=--no_testing" >> $GITHUB_ENV
+        fi
+        if [[ "${{ inputs.option_no_parallel }}" == "true" ]]; then
+            echo "option_no_parallel=--no-parallel" >> $GITHUB_ENV
+        fi
+        #if [[ "${{ inputs.option_delivery_file }}" ]]; then
+        #    echo "option_delivery_file=--delivery_file" >> $GITHUB_ENV
+        #fi
       shell: bash
 
     - name: Run STASIS
