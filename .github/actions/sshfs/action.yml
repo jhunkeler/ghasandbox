@@ -1,0 +1,59 @@
+name: SSHFS
+
+description: |
+  Mount data areas using SSHFS
+
+inputs:
+  user:
+    type: string
+    required: true
+    default: ""
+
+  password:
+    type: string
+    required: true
+    default: ""
+
+  remote_host:
+    type: string
+    required: true
+    default: ""
+
+  remote_dir:
+    type: string
+    required: true
+    default: ""
+
+  local_dir:
+    type: string
+    required: false
+    default: ${{ inputs.remote_dir }}
+
+runs:
+  using: "composite"
+  env:
+    SSHFS_USER: ${{ inputs.user }}
+    SSHFS_PASS: ${{ inputs.password }}
+  steps:
+    - name: Mask inputs
+      run: |
+        echo "::add-mask::$SSHFS_USER"
+        echo "::add-mask::$SSHFS_PASS"
+      shell: bash
+
+    - name: Install SSHFS
+      run: |
+        sudo apt update
+        sudo apt -y install sshfs
+      shell: bash
+
+    - name: Mount ${{ inputs.remote_dir }} at ${{ inputs.local_path }}
+      run: |
+        sudo mkdir -p ${{ inputs.local_dir }}
+        sudo sshfs \
+            -o StrictHostKeyChecking=no,password_stdin,allow_other,default_permissions \
+            $SSHFS_USER@${{ inputs.remote_host}}:${{ inputs.remote_dir }} \
+            ${{ inputs.local_dir }} \
+            <<< "$SSHFS_PASS"
+
+      shell: bash

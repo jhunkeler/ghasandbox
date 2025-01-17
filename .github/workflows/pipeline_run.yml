@@ -61,6 +61,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Mount data area
+        uses: ./.github/actions/sshfs
+        with:
+          user: abcd
+          password: efghijk
+          remote_host: example.tld
+          remote_dir: /data
+          local_dir: /mydata
+
       - name: STASIS (${{ runner.os }}-${{ runner.arch }})
         uses: ./.github/actions/stasis
         with:

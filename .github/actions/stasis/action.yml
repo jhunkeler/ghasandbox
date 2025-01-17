@@ -149,8 +149,6 @@ env:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-
     - name: Set TMPDIR
       run: |
         echo TMPDIR=${{ runner.temp }} >> $GITHUB_ENV
@@ -197,7 +195,6 @@ runs:
         if [[ -n "${{ inputs.option_python }}" ]]; then
             echo "option_python=--python=${{ inputs.option_python }}" >> $GITHUB_ENV
         fi
-
         if [[ "${{ inputs.option_verbose }}" == "true" ]]; then
             echo "option_verbose=--verbose" >> $GITHUB_ENV
         fi
