@@ -12,17 +12,44 @@ on:
         required: true
         default: ""
 
+      unbuffered:
+        type: boolean
+        description: Disable line buffering
+        default: true
+
       verbose:
         type: boolean
+        description: Toggle verbose output
         default: false
 
       continue_on_error:
         type: boolean
+        description: Allow tests to fail
+        default: false
+
+      no_testing:
+        type: boolean
+        description: Disable all tests
+        default: false
+
+      no_artifactory:
+        type: boolean
+        description: Disable Artifactory (including existence checks)
+        default: false
+
+      no_artifactory_upload:
+        type: boolean
+        description: Disable Artifactory deployment (excluding existence checks)
+        default: false
+
+      no_docker:
+        type: boolean
+        description: Disable Docker image building
         default: false
 
       stasis_args:
         type: string
-        description: Arguments to pass to STASIS
+        description: Custom arguments to pass to STASIS
         required: false
         default: ""
 
@@ -44,4 +71,9 @@ jobs:
           option_delivery_file: ${{ inputs.delivery_file }}
           option_verbose: ${{ inputs.verbose }}
           option_continue_on_error: ${{ inputs.continue_on_error }}
+          option_no_testing: ${{ inputs.no_testing }}
+          option_no_artifactory: ${{ inputs.no_artifactory }}
+          option_no_artifactory_upload: ${{ inputs.no_artifactory_upload }}
+          option_no_docker: ${{ inputs.no_docker }}
+          option_unbuffered: ${{ inputs.unbuffered }}
 
