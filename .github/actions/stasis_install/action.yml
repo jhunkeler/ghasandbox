@@ -51,4 +51,4 @@ runs:
     - name: Remove STASIS source
       run: |
         rm -rf ${{ github.workspace }}/stasis
-
+      shell: bash
