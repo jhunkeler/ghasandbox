@@ -61,7 +61,8 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - ubuntu-arm64
+          - macos-latest
+          - macos-13
     steps:
       - name: Checkout
         uses: actions/checkout@v4
