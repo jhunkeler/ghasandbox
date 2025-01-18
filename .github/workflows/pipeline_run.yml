@@ -55,7 +55,7 @@ on:
 
 jobs:
   publish:
-    name: Publish (${{ runner.os }}-${{ runner.arch }})
+    name: Publish
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
