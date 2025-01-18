@@ -39,7 +39,7 @@ runs:
         repository: 'spacetelescope/stasis'
         path: ${{ github.workspace }}/stasis
 
-    - if: os.runner == "Linux" }}
+    - if: os.runner == "Linux"
       name: Install STASIS dependencies
       run: |
         sudo apt-get update
