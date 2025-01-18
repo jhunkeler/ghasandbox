@@ -39,10 +39,18 @@ runs:
         repository: 'spacetelescope/stasis'
         path: ${{ github.workspace }}/stasis
 
-    - name: Install STASIS dependencies
+    - if: os.runner == "Linux" }}
+      name: Install STASIS dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y ca-certificates cmake libcurl4-openssl-dev libxml2-dev rsync
+      shell: bash
+
+    - if: os.runner == "macOS"
+      name: Install STASIS dependencies
+      run: |
+        brew update
+        brew install curl cmake libxml2 rsync
       shell: bash
 
     - name: Install STASIS
