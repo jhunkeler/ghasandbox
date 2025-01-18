@@ -228,6 +228,7 @@ runs:
         done
 
         echo "current working directory: $(pwd)"
+        find $(pwd)
         stasis \
             $args \
             ${{ inputs.stasis_args }} \
