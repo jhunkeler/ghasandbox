@@ -227,8 +227,6 @@ runs:
             args+="${!arg} "
         done
 
-        echo "current working directory: $(pwd)"
-        find $(pwd)
         stasis \
             $args \
             ${{ inputs.stasis_args }} \
@@ -240,3 +238,4 @@ runs:
         #Artifactory "generic" repository to write to
         STASIS_JF_REPO: ${{ inputs.artifactory_repo }}
         STASIS_JF_ACCESS_TOKEN: ${{ inputs.artifactory_access_key }}
+        STASIS_GH_TOKEN: ${{ github.token }}
