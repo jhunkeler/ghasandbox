@@ -55,8 +55,13 @@ on:
 
 jobs:
   publish:
-    name: Publish
-    runs-on: ubuntu-latest
+    name: Publish (${{ runner.os }}-${{ runner.arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v4

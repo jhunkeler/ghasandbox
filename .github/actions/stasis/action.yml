@@ -143,9 +143,6 @@ inputs:
     required: true
     default: ""
 
-env:
-  REMOTE_PATHS: "/path/to/somewhere"
-
 runs:
   using: "composite"
   steps:
@@ -226,6 +223,11 @@ runs:
         for arg in $(compgen -A variable | grep option_); do
             args+="${!arg} "
         done
+
+        if [[ "${{ runner.os }}" == "macOS" ]]; then
+            args+="--no-testing "
+            args+="--no-docker "
+        fi
 
         stasis \
             $args \
